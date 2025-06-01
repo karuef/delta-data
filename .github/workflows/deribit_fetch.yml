@@ -1,0 +1,33 @@
+name: Deribit Signal Fetcher
+
+on:
+  schedule:
+    - cron: '*/5 * * * *'
+  workflow_dispatch:
+
+jobs:
+  fetch-signals:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Repo'yu klonla
+        uses: actions/checkout@v3
+
+      - name: Python ortamı hazırla
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'
+
+      - name: Kütüphaneleri yükle
+        run: pip install pandas requests
+
+      - name: Deribit verilerini çek
+        run: |
+          python get_signals.py
+
+      - name: GitHub'a push et
+        run: |
+          git config user.name "DeltaBot"
+          git config user.email "bot@example.com"
+          git add signals.csv
+          git commit -m "Auto-update from Deribit"
+          git push
