@@ -31,6 +31,7 @@ jobs:
           git config user.name "DeltaBot"
           git config user.email "bot@example.com"
           git remote set-url origin https://x-access-token:${TOKEN}@github.com/karuef/delta-data.git
+          git pull origin main --rebase
           git add signals.csv
-          git commit -m "Auto-update from Deribit"
+          git commit -m "Auto-update from Deribit" || echo "No changes to commit"
           git push origin main
