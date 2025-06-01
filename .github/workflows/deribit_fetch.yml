@@ -25,9 +25,12 @@ jobs:
           python get_signals.py
 
       - name: GitHub'a push et
+        env:
+          TOKEN: ${{ secrets.GH_PAT }}
         run: |
           git config user.name "DeltaBot"
           git config user.email "bot@example.com"
+          git remote set-url origin https://x-access-token:${TOKEN}@github.com/karuef/delta-data.git
           git add signals.csv
           git commit -m "Auto-update from Deribit"
-          git push
+          git push origin main
