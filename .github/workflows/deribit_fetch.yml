@@ -25,6 +25,13 @@ jobs:
       - name: Run Deribit fetch script
         run: python get_signals.py
 
+      - name: Check if signals.csv is non-empty
+        run: |
+          if [ ! -s signals.csv ]; then
+            echo "⚠️ signals.csv boş, push edilmeyecek."
+            exit 0
+          fi
+
       - name: Commit & Push signals.csv
         run: |
           git config user.name "DeltaBot"
